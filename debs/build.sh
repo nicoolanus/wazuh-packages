@@ -89,7 +89,7 @@ sed -i "s#export PATH=.*#export PATH=/usr/local/gcc-5.5.0/bin:\${PATH}#g" "${sou
 sed -i "s#export LD_LIBRARY_PATH=.*#export LD_LIBRARY_PATH=\${LD_LIBRARY_PATH}#g" "${sources_dir}/debian/rules"
 sed -i "s:export INSTALLATION_DIR=.*:export INSTALLATION_DIR=\${dir_path}:g" "${sources_dir}/debian/rules"
 sed -i "s:DIR=\"/var/ossec\":DIR=\"${dir_path}\":g" "${sources_dir}/debian/preinst" "${sources_dir}/debian/postinst" "${sources_dir}/debian/prerm" "${sources_dir}/debian/postrm"
-if [ "\${build_target}" == "api" ]; then
+if [ "${build_target}" == "api" ]; then
     sed -i "s:DIR=\"/var/ossec\":DIR=\"${dir_path}\":g" "${sources_dir}/debian/wazuh-api.init"
     if [ "\${architecture_target}" == "ppc64le" ]; then
         sed -i "s: nodejs (>= 4.6), npm,::g" "${sources_dir}/debian/control"
@@ -97,7 +97,7 @@ if [ "\${build_target}" == "api" ]; then
 fi
 
 if [[ "\${debug}" == "yes" ]]; then
-    sed -i "s:dh_strip --no-automatic-dbgsym::g" "\${sources_dir}/debian/rules"
+    sed -i "s:dh_strip --no-automatic-dbgsym::g" "${sources_dir}/debian/rules"
 fi
 
 # Installing build dependencies
