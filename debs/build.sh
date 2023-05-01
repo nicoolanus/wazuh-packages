@@ -127,7 +127,7 @@ if [[ "${checksum}" == "yes" ]]; then
 fi
 pwd
 ls -lastrh
-cd..
+cd debian/
 pwd
 ls -lastrh
 pwd
