@@ -5,7 +5,7 @@ ENV DEBIAN_FRONTEND noninteractive
 # Installing necessary packages
 RUN echo "deb http://deb.debian.org/debian/ buster contrib main non-free" > /etc/apt/sources.list && \
     echo "deb-src http://deb.debian.org/debian/ buster contrib main non-free" >> /etc/apt/sources.list
-RUN apt-get update && apt-get install -y --allow-change-held-packages apt-utils && \
+RUN apt-get update && apt-get install -y --allow-change-held-packages apt-utils curl && \
     apt-get install -y --allow-change-held-packages curl gcc make sudo wget expect gnupg perl \
     libc-bin libc6 libc6-dev build-essential cdbs devscripts equivs automake autoconf \
     libtool libaudit-dev selinux-basics libdb5.3-dev libssl1.1 procps gawk libsigsegv2
