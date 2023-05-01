@@ -101,28 +101,28 @@ if [[ "\${debug}" == "yes" ]]; then
 fi
 
 # Installing build dependencies
-cd \${sources_dir}
+cd ${sources_dir}
 mk-build-deps -ir -t "apt-get -o Debug::pkgProblemResolver=yes -y"
 
 # Build package
-if [[ "\${architecture_target}" == "amd64" ]] ||  [[ "\${architecture_target}" == "ppc64le" ]] || \
-    [[ "\${architecture_target}" == "arm64" ]]; then
+if [[ "${architecture_target}" == "amd64" ]] ||  [[ "${architecture_target}" == "ppc64le" ]] || \
+    [[ "${architecture_target}" == "arm64" ]]; then
     debuild --rootcmd=sudo -D -b -uc -us
-elif [[ "\${architecture_target}" == "armhf" ]]; then
+elif [[ "${architecture_target}" == "armhf" ]]; then
     linux32 debuild --rootcmd=sudo -b -uc -us
 else
     linux32 debuild --rootcmd=sudo -ai386 -b -uc -us
 fi
 
-deb_file="wazuh-\${build_target}_\${wazuh_version}-\${package_release}"
-if [[ "\${architecture_target}" == "ppc64le" ]]; then
-  deb_file="\${deb_file}_ppc64el.deb"
+deb_file="wazuh-${build_target}_${wazuh_version}-${package_release}"
+if [[ "${architecture_target}" == "ppc64le" ]]; then
+  deb_file="${deb_file}_ppc64el.deb"
 else
-  deb_file="\${deb_file}_\${architecture_target}.deb"
+  deb_file="${deb_file}_${architecture_target}.deb"
 fi
-pkg_path="\${build_dir}/\${build_target}"
+pkg_path="${build_dir}/${build_target}"
 
-if [[ "\${checksum}" == "yes" ]]; then
-    cd \${pkg_path} && sha512sum \${deb_file} > /var/local/checksum/\${deb_file}.sha512
+if [[ "${checksum}" == "yes" ]]; then
+    cd ${pkg_path} && sha512sum ${deb_file} > /var/local/checksum/${deb_file}.sha512
 fi
-mv \${pkg_path}/\${deb_file} /var/local/wazuh
+mv ${pkg_path}/${deb_file} /var/local/wazuh
