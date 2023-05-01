@@ -125,4 +125,6 @@ pkg_path="${build_dir}/${build_target}"
 if [[ "${checksum}" == "yes" ]]; then
     cd ${pkg_path} && sha512sum ${deb_file} > /var/local/checksum/${deb_file}.sha512
 fi
+pwd
+mkdir /var/local/wazuh
 mv ${pkg_path}/${deb_file} /var/local/wazuh
