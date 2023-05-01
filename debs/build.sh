@@ -80,13 +80,6 @@ cp -p ${package_files}/gen_permissions.sh ${sources_dir}
 # Generating directory structure to build the .deb package
 cd ${build_dir}/${build_target} && tar -czf ${package_full_name}.orig.tar.gz "${package_full_name}"
 
-# Instalar g++-4.9
-sudo apt-get install g++-4.9
-
-# Configurar las variables de entorno para utilizar g++-4.9
-export CC=gcc-4.9
-export CXX=g++-4.9
-
 # Configure the package with the different parameters
 export sources_dir
 sed -i "s:RELEASE:${package_release}:g" "${sources_dir}/debian/changelog"
