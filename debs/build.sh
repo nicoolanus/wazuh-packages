@@ -134,4 +134,4 @@ pwd
 cd ..
 ls -lastrh
 pwd
-mv ${pkg_path}/${deb_file} /var/local/wazuh
+#mv ${pkg_path}/${deb_file} /var/local/wazuh
