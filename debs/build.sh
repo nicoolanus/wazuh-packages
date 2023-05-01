@@ -81,6 +81,7 @@ cp -p ${package_files}/gen_permissions.sh ${sources_dir}
 cd ${build_dir}/${build_target} && tar -czf ${package_full_name}.orig.tar.gz "${package_full_name}"
 
 # Configure the package with the different parameters
+export sources_dir
 sed -i "s:RELEASE:\${package_release}:g" "\${sources_dir}/debian/changelog"
 sed -i "s:export JOBS=.*:export JOBS=\${jobs}:g" "\${sources_dir}/debian/rules"
 sed -i "s:export DEBUG_ENABLED=.*:export DEBUG_ENABLED=\${debug}:g" "\${sources_dir}/debian/rules"
