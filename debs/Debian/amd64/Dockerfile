@@ -11,6 +11,9 @@ RUN apt-get update && apt-get install -y --allow-change-held-packages apt-utils 
     libtool libaudit-dev selinux-basics libdb5.3-dev libssl1.1 procps gawk libsigsegv2
 RUN apt-get update && apt-get build-dep python3.7 -y --allow-change-held-packages
 
+ENV CFLAGS="-fPIE"
+ENV LDFLAGS="-no-pie"
+
 RUN curl -OL http://packages.wazuh.com/utils/gcc/gcc-9.4.0.tar.gz && \
     tar xzf gcc-9.4.0.tar.gz  && cd gcc-9.4.0/ && \
     ./contrib/download_prerequisites && \
@@ -20,8 +23,8 @@ RUN curl -OL http://packages.wazuh.com/utils/gcc/gcc-9.4.0.tar.gz && \
     ln -fs /usr/local/gcc-9.4.0/bin/g++ /usr/bin/c++ && cd / && rm -rf gcc-*
 
 ENV CPLUS_INCLUDE_PATH "/usr/local/gcc-9.4.0/include/c++/9.4.0/"
-ENV LD_LIBRARY_PATH "/usr/local/gcc-9.4.0/lib64:${LD_LIBRARY_PATH}"
-ENV PATH "/usr/local/gcc-9.4.0/bin:${PATH}"
+ENV LD_LIBRARY_PATH "/usr/local/gcc-9.4.0/lib64:\${LD_LIBRARY_PATH}"
+ENV PATH "/usr/local/gcc-9.4.0/bin:\${PATH}"
 
 RUN curl -OL http://packages.wazuh.com/utils/cmake/cmake-3.18.3.tar.gz && \
     tar -zxf cmake-3.18.3.tar.gz && cd cmake-3.18.3 && \
