@@ -81,47 +81,47 @@ cp -p ${package_files}/gen_permissions.sh ${sources_dir}
 cd ${build_dir}/${build_target} && tar -czf ${package_full_name}.orig.tar.gz "${package_full_name}"
 
 # Configure the package with the different parameters
-sed -i "s:RELEASE:${package_release}:g" ${sources_dir}/debian/changelog
-sed -i "s:export JOBS=.*:export JOBS=${jobs}:g" ${sources_dir}/debian/rules
-sed -i "s:export DEBUG_ENABLED=.*:export DEBUG_ENABLED=${debug}:g" ${sources_dir}/debian/rules
-sed -i "s#export PATH=.*#export PATH=/usr/local/gcc-5.5.0/bin:\\${PATH}#g" \${sources_dir}/debian/rules
-sed -i "s#export LD_LIBRARY_PATH=.*#export LD_LIBRARY_PATH=\\${LD_LIBRARY_PATH}#g" \${sources_dir}/debian/rules
-sed -i "s:export INSTALLATION_DIR=.*:export INSTALLATION_DIR=${dir_path}:g" ${sources_dir}/debian/rules
-sed -i "s:DIR=\"/var/ossec\":DIR=\"${dir_path}\":g" ${sources_dir}/debian/{preinst,postinst,prerm,postrm}
-if [ "${build_target}" == "api" ]; then
-    sed -i "s:DIR=\"/var/ossec\":DIR=\"${dir_path}\":g" ${sources_dir}/debian/wazuh-api.init
-    if [ "${architecture_target}" == "ppc64le" ]; then
-        sed -i "s: nodejs (>= 4.6), npm,::g" ${sources_dir}/debian/control
+sed -i "s:RELEASE:\${package_release}:g" \${sources_dir}/debian/changelog
+sed -i "s:export JOBS=.*:export JOBS=\${jobs}:g" \${sources_dir}/debian/rules
+sed -i "s:export DEBUG_ENABLED=.*:export DEBUG_ENABLED=\${debug}:g" \${sources_dir}/debian/rules
+sed -i "s#export PATH=.*#export PATH=/usr/local/gcc-5.5.0/bin:\\\${PATH}#g" "\${sources_dir}/debian/rules"
+sed -i "s#export LD_LIBRARY_PATH=.*#export LD_LIBRARY_PATH=\\\${LD_LIBRARY_PATH}#g" "\${sources_dir}/debian/rules"
+sed -i "s:export INSTALLATION_DIR=.*:export INSTALLATION_DIR=\${dir_path}:g" \${sources_dir}/debian/rules
+sed -i "s:DIR=\"/var/ossec\":DIR=\"\${dir_path}\":g" \${sources_dir}/debian/{preinst,postinst,prerm,postrm}
+if [ "\${build_target}" == "api" ]; then
+    sed -i "s:DIR=\"/var/ossec\":DIR=\"\${dir_path}\":g" \${sources_dir}/debian/wazuh-api.init
+    if [ "\${architecture_target}" == "ppc64le" ]; then
+        sed -i "s: nodejs (>= 4.6), npm,::g" \${sources_dir}/debian/control
     fi
 fi
 
-if [[ "${debug}" == "yes" ]]; then
-    sed -i "s:dh_strip --no-automatic-dbgsym::g" ${sources_dir}/debian/rules
+if [[ "\${debug}" == "yes" ]]; then
+    sed -i "s:dh_strip --no-automatic-dbgsym::g" \${sources_dir}/debian/rules
 fi
 
 # Installing build dependencies
-cd ${sources_dir}
+cd \${sources_dir}
 mk-build-deps -ir -t "apt-get -o Debug::pkgProblemResolver=yes -y"
 
 # Build package
-if [[ "${architecture_target}" == "amd64" ]] ||  [[ "${architecture_target}" == "ppc64le" ]] || \
-    [[ "${architecture_target}" == "arm64" ]]; then
+if [[ "\${architecture_target}" == "amd64" ]] ||  [[ "\${architecture_target}" == "ppc64le" ]] || \
+    [[ "\${architecture_target}" == "arm64" ]]; then
     debuild --rootcmd=sudo -D -b -uc -us
-elif [[ "${architecture_target}" == "armhf" ]]; then
+elif [[ "\${architecture_target}" == "armhf" ]]; then
     linux32 debuild --rootcmd=sudo -b -uc -us
 else
     linux32 debuild --rootcmd=sudo -ai386 -b -uc -us
 fi
 
-deb_file="wazuh-${build_target}_${wazuh_version}-${package_release}"
-if [[ "${architecture_target}" == "ppc64le" ]]; then
-  deb_file="${deb_file}_ppc64el.deb"
+deb_file="wazuh-\${build_target}_\${wazuh_version}-\${package_release}"
+if [[ "\${architecture_target}" == "ppc64le" ]]; then
+  deb_file="\${deb_file}_ppc64el.deb"
 else
-  deb_file="${deb_file}_${architecture_target}.deb"
+  deb_file="\${deb_file}_\${architecture_target}.deb"
 fi
-pkg_path="${build_dir}/${build_target}"
+pkg_path="\${build_dir}/\${build_target}"
 
-if [[ "${checksum}" == "yes" ]]; then
-    cd ${pkg_path} && sha512sum ${deb_file} > /var/local/checksum/${deb_file}.sha512
+if [[ "\${checksum}" == "yes" ]]; then
+    cd \${pkg_path} && sha512sum \${deb_file} > /var/local/checksum/\${deb_file}.sha512
 fi
-mv ${pkg_path}/${deb_file} /var/local/wazuh
+mv \${pkg_path}/\${deb_file} /var/local/wazuh
