@@ -82,12 +82,12 @@ cd ${build_dir}/${build_target} && tar -czf ${package_full_name}.orig.tar.gz "${
 
 # Configure the package with the different parameters
 export sources_dir
-sed -i "s:RELEASE:\${package_release}:g" "${sources_dir}/debian/changelog"
-sed -i "s:export JOBS=.*:export JOBS=\${jobs}:g" "${sources_dir}/debian/rules"
-sed -i "s:export DEBUG_ENABLED=.*:export DEBUG_ENABLED=\${debug}:g" "${sources_dir}/debian/rules"
-sed -i "s#export PATH=.*#export PATH=/usr/local/gcc-5.5.0/bin:\${PATH}#g" "${sources_dir}/debian/rules"
-sed -i "s#export LD_LIBRARY_PATH=.*#export LD_LIBRARY_PATH=\${LD_LIBRARY_PATH}#g" "${sources_dir}/debian/rules"
-sed -i "s:export INSTALLATION_DIR=.*:export INSTALLATION_DIR=\${dir_path}:g" "${sources_dir}/debian/rules"
+sed -i "s:RELEASE:${package_release}:g" "${sources_dir}/debian/changelog"
+sed -i "s:export JOBS=.*:export JOBS=${jobs}:g" "${sources_dir}/debian/rules"
+sed -i "s:export DEBUG_ENABLED=.*:export DEBUG_ENABLED=${debug}:g" "${sources_dir}/debian/rules"
+sed -i "s#export PATH=.*#export PATH=/usr/local/gcc-5.5.0/bin:${PATH}#g" "${sources_dir}/debian/rules"
+sed -i "s#export LD_LIBRARY_PATH=.*#export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}#g" "${sources_dir}/debian/rules"
+sed -i "s:export INSTALLATION_DIR=.*:export INSTALLATION_DIR=${dir_path}:g" "${sources_dir}/debian/rules"
 sed -i "s:DIR=\"/var/ossec\":DIR=\"${dir_path}\":g" "${sources_dir}/debian/preinst" "${sources_dir}/debian/postinst" "${sources_dir}/debian/prerm" "${sources_dir}/debian/postrm"
 if [ "${build_target}" == "api" ]; then
     sed -i "s:DIR=\"/var/ossec\":DIR=\"${dir_path}\":g" "${sources_dir}/debian/wazuh-api.init"
@@ -96,7 +96,7 @@ if [ "${build_target}" == "api" ]; then
     fi
 fi
 
-if [[ "\${debug}" == "yes" ]]; then
+if [[ "${debug}" == "yes" ]]; then
     sed -i "s:dh_strip --no-automatic-dbgsym::g" "${sources_dir}/debian/rules"
 fi
 
