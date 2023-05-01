@@ -86,7 +86,7 @@ sed -i "s:RELEASE:${package_release}:g" "${sources_dir}/debian/changelog"
 sed -i "s:export JOBS=.*:export JOBS=${jobs}:g" "${sources_dir}/debian/rules"
 sed -i "s:export DEBUG_ENABLED=.*:export DEBUG_ENABLED=${debug}:g" "${sources_dir}/debian/rules"
 sed -i "s#export PATH=.*#export PATH=/usr/local/gcc-5.5.0/bin:${PATH}#g" "${sources_dir}/debian/rules"
-sed -i "s#export LD_LIBRARY_PATH=.*#export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}#g" "${sources_dir}/debian/rules"
+sed -i 's#export LD_LIBRARY_PATH=.*#export LD_LIBRARY_PATH=/usr/local/gcc-9.4.0/lib64:\\#g' "${sources_dir}/debian/rules"
 sed -i "s:export INSTALLATION_DIR=.*:export INSTALLATION_DIR=${dir_path}:g" "${sources_dir}/debian/rules"
 sed -i "s:DIR=\"/var/ossec\":DIR=\"${dir_path}\":g" "${sources_dir}/debian/preinst" "${sources_dir}/debian/postinst" "${sources_dir}/debian/prerm" "${sources_dir}/debian/postrm"
 if [ "${build_target}" == "api" ]; then
