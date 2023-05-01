@@ -127,5 +127,11 @@ if [[ "${checksum}" == "yes" ]]; then
 fi
 pwd
 ls -lastrh
-find build_wazuh/agent/ -type f -name "*.deb" -print
+cd..
+pwd
+ls -lastrh
+pwd
+cd ..
+ls -lastrh
+pwd
 mv ${pkg_path}/${deb_file} /var/local/wazuh
