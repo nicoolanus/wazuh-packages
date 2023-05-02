@@ -127,11 +127,6 @@ if [[ "${checksum}" == "yes" ]]; then
 fi
 pwd
 ls -lastrh
-cd debian/
-pwd
+cd /debian/wazuh-agent/
 ls -lastrh
-pwd
-cd ..
-ls -lastrh
-pwd
 #mv ${pkg_path}/${deb_file} /var/local/wazuh
