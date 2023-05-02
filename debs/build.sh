@@ -130,4 +130,5 @@ ls -lastrh
 cd debian
 cd wazuh-agent/
 ls -lastrh
+cd DEBIAN
 #mv ${pkg_path}/${deb_file} /var/local/wazuh
