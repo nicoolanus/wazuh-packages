@@ -125,13 +125,7 @@ pkg_path="${build_dir}/${build_target}"
 if [[ "${checksum}" == "yes" ]]; then
     cd ${pkg_path} && sha512sum ${deb_file} > /var/local/checksum/${deb_file}.sha512
 fi
+
 pwd
-ls -lastrh
-cd debian
-cd wazuh-agent/
-ls -lastrh
-cd DEBIAN
-ls-lastrh
-cd debian
-ls-lastrh
-#mv ${pkg_path}/${deb_file} /var/local/wazuh
+
+mv ${pkg_path}/${deb_file} /var/local/wazuh
